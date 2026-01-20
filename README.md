@@ -222,6 +222,14 @@ export const useFetching = <T>(
 
 ```
 
+Y asi es como se usa el useFetching
+```ts
+  let { data, error, loading } = useFetching<Character[]>(
+    `${BASE_URL}?page=${paginaActual}&name=${search}&status=${status}&species=${species}`,
+    getCharacters
+  );
+```
+
 Este enfoque mejora la experiencia del usuario y disminuye la carga sobre la API externa.
 
 ---
@@ -280,6 +288,45 @@ Los favoritos se almacenan utilizando **localStorage**, permitiendo que la selec
 
 Los hooks personalizados que se utilizaron en este proyecto fueron los siguientes
 * useDebounce que permite crear un delay al momento de realizar la busqueda a travez del input mediante el nombre
+Asi es como se implementa y se usa:
+```ts
+import { useEffect, useState } from "react";
+
+export const useDebounce = <T> (value : T, delay : number) : T => {
+
+    const [debouncedValue, setDebouncedValue] = useState<T>(value);
+
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setDebouncedValue(value)
+        }, delay);
+
+        return () =>clearTimeout(timer);
+    }, [value, delay]);
+
+    return debouncedValue;
+
+}
+```
+```ts
+  const filteredItems = useMemo(() => {
+    return data?.filter((it) => {
+      const matchesSearch = it.name
+        .toLowerCase()
+        .includes(debouncedSearch.toLowerCase());
+      const matchesStatus = status
+        ? it.status.toLowerCase() === status.toLowerCase()
+        : true;
+      const matchesSpecies = species
+        ? it.species.toLowerCase().includes(species.toLowerCase())
+        : true;
+
+      return matchesSearch && matchesStatus && matchesSpecies;
+    });
+  }, [data, debouncedSearch, status, species]);
+```
+--Lo anterior tambien se incuye la forma en la que se implementa el tema de los filtros multiples
+
 * useFetching que permite cumple por un lado el manejo de los servicios de peticiones http y al mismo tiempo hace caching de la data que se recibe.
 
 ## 📄 Licencia
