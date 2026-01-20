@@ -268,6 +268,25 @@ La aplicación incluye un sistema de **búsqueda avanzada de personajes** que pe
 * 🟢 **Status** (Alive, Dead, Unknown)
 * 🧬 **Especie**
 
+Implementacion de los filtros multiples:
+```ts
+  const filteredItems = useMemo(() => {
+    return data?.filter((it) => {
+      const matchesSearch = it.name
+        .toLowerCase()
+        .includes(debouncedSearch.toLowerCase());
+      const matchesStatus = status
+        ? it.status.toLowerCase() === status.toLowerCase()
+        : true;
+      const matchesSpecies = species
+        ? it.species.toLowerCase().includes(species.toLowerCase())
+        : true;
+
+      return matchesSearch && matchesStatus && matchesSpecies;
+    });
+  }, [data, debouncedSearch, status, species]);
+```
+
 Los filtros pueden utilizarse de forma individual o combinada, mejorando la experiencia de exploración y facilitando la localización de personajes específicos.
 
 ---
@@ -308,24 +327,6 @@ export const useDebounce = <T> (value : T, delay : number) : T => {
 
 }
 ```
-```ts
-  const filteredItems = useMemo(() => {
-    return data?.filter((it) => {
-      const matchesSearch = it.name
-        .toLowerCase()
-        .includes(debouncedSearch.toLowerCase());
-      const matchesStatus = status
-        ? it.status.toLowerCase() === status.toLowerCase()
-        : true;
-      const matchesSpecies = species
-        ? it.species.toLowerCase().includes(species.toLowerCase())
-        : true;
-
-      return matchesSearch && matchesStatus && matchesSpecies;
-    });
-  }, [data, debouncedSearch, status, species]);
-```
---Lo anterior tambien se incuye la forma en la que se implementa el tema de los filtros multiples
 
 * useFetching que permite cumple por un lado el manejo de los servicios de peticiones http y al mismo tiempo hace caching de la data que se recibe.
 
