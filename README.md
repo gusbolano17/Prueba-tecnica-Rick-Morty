@@ -247,15 +247,14 @@ npm run dev
 
 ```txt
 src/
-├── api/
-│   └── rickAndMorty.api.js
 ├── components/
-├── pages/
+│   └── pages/
 ├── hooks/
-├── router/
-├── styles/
-├── App.jsx
-├── main.jsx
+├── models/
+├── services/
+│   └── ricky-morty-service.ts
+├── App.tsx
+├── main.tsx
 ```
 
 ---
@@ -283,6 +282,12 @@ La aplicación cuenta con una **sección de favoritos**, donde el usuario puede:
 Los favoritos se almacenan utilizando **localStorage**, permitiendo que la selección del usuario se mantenga incluso después de recargar la página.
 
 ---
+
+## 🪝 Hooks
+
+Los hooks personalizados que se utilizaron en este proyecto fueron los siguientes
+* useDebounce que permite crear un delay al momento de realizar la busqueda a travez del input mediante el nombre
+* useFetching que permite cumple por un lado el manejo de los servicios de peticiones http y al mismo tiempo hace caching de la data que se recibe.
 
 ## 📄 Licencia
 
