@@ -148,25 +148,18 @@ createRoot(document.getElementById("root")!).render(
 
 ## 🌐 Consumo de la API (Axios)
 
-Instancia de Axios:
+Implementacion en el servicio rick-morty-service.ts:
 
-```js
-import axios from "axios";
+```ts
+import axios from 'axios';
 
-export const api = axios.create({
-  baseURL: "https://rickandmortyapi.com/api",
-});
+export const BASE_URL = 'https://rickandmortyapi.com/api/character';
+
+export const getCharacters = async (url : string) => {
+    const resp = await axios.get(url);
+    return resp.data.results;
+}
 ```
-
-Uso en un servicio:
-
-```js
-export const getCharacters = async () => {
-  const { data } = await api.get("/character");
-  return data.results;
-};
-```
-
 ---
 
 ## 💾 Caching con LocalStorage
